@@ -1,0 +1,30 @@
+name: CI and CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.5"
+
+      - name: Build
+        run: go build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        if: success()
+        with:
+          name: Cliquidation
